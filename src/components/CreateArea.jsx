@@ -1,13 +1,10 @@
-import React from "react";
+import React, {useState} from "react";
 
-function CreateArea() {
+function CreateArea(props) {
     const [note, setNoteContent] = useState({
-        tile: "",
+        title: "",
         content: ""
     });
-
-    const [notesList, updateNoteList] = useState([]);
-
 
     function AddNote(event){
         const {name, value} = event.target;
@@ -19,12 +16,22 @@ function CreateArea() {
             }
         });
     }
+
+    function createNote(event){
+        props.whenAdded(note)
+        setNoteContent({
+            title: "",
+            content: "" 
+        })
+        event.preventDefault();
+    }
+
     return (
         <div>
         <form>
-            <input name="title" placeholder="Title" value={note.tile}/>
-            <textarea name="content" placeholder="Take a note..." rows="3" value={note.content} />
-            <button>Add</button>
+            <input onChange={AddNote} name="title" placeholder="Title" value={note.title}/>
+            <textarea onChange={AddNote} name="content" placeholder="Take a note..." rows="3" value={note.content} />
+            <button onClick={createNote}>Add</button>
         </form>
         </div>
     );
